@@ -1,7 +1,7 @@
 import {random,clamp,norm} from './random.mjs';
 export const W=900,H=1200;
 export class Game {
- constructor(meta,{seed=7341}={}){this.meta=meta;this.random=random(seed);this.time=0;this.serial=0;this.users=new Map();this.state={id:meta.id,name:meta.name,view:'board',time:0,round:1,phase:'playing',headline:meta.name,subtitle:'O chat participa da brincadeira',players:[],objects:[],effects:[],teams:[],scores:[],feed:[],actions:[]};}
+ constructor(meta,{seed=7341}={}){this.meta=meta;this.random=random(seed);this.time=0;this.serial=0;this.users=new Map();this.pendingInteractions=[];this.nextSupportAt=0;this.state={id:meta.id,name:meta.name,view:'board',time:0,round:1,phase:'playing',headline:meta.name,subtitle:'O chat participa da brincadeira',players:[],objects:[],effects:[],teams:[],scores:[],feed:[],actions:[],engagement:{likes:0,gifts:0,follows:0,shares:0},pending:0};}
  rnd(a=0,b=1){return a+(b-a)*this.random();}
  pick(a){return a[Math.floor(this.random()*a.length)];}
  uid(prefix='item'){return prefix+'-'+(++this.serial);}
@@ -13,6 +13,8 @@ export class Game {
  finish(winner){if(this.state.phase==='finished')return;this.state.phase='finished';this.state.winner=winner?.name||String(winner||'Rodada concluída');this.state.headline=this.state.winner+' venceu!';this.roundEnd=this.time+4;}
  nextRound(){this.state.round++;this.state.phase='playing';delete this.state.winner;this.state.headline=this.meta.name;this.roundEnd=null;this.reset?.();}
  input(e={}){if(typeof e!=='object'||e===null||this.state.phase!=='playing')return;const p=this.player(e);if(!p)return;const event={...e,kind:String(e.kind||'comment'),text:String(e.text||e.comment||'').slice(0,240),action:String(e.action||'').slice(0,50),count:clamp(Number(e.count)||1,1,100),coins:clamp(Number(e.coins)||0,0,10000)};event.word=norm(event.text);this.onInput?.(event,p);}
- tick(dt=.05){dt=clamp(Number(dt)||0,0,.1);this.time+=dt;this.state.time=this.time;for(const f of this.state.effects)f.life-=dt;this.state.effects=this.state.effects.filter(f=>f.life>0).slice(-80);if(this.state.phase==='finished'){if(this.time>=this.roundEnd)this.nextRound();}else this.step?.(dt);this.sync?.();return this.state;}
+ supportReady(){return this.state.phase==='playing'&&!(this.state.view==='social'&&this.state.queue.length>=80);}
+ queueInteraction(event,count=1){const pending=this.pendingInteractions.reduce((n,j)=>n+j.count,0);if(count+pending>1000)return{accepted:false,message:'Fila de interações cheia. Aguarde o processamento.'};if(!pending&&this.supportReady()){this.input(event);count--;}if(count>0)this.pendingInteractions.push({event,count});this.state.pending=pending+count;return{accepted:true,queued:this.state.pending};}
+ tick(dt=.05){dt=clamp(Number(dt)||0,0,.1);this.time+=dt;this.state.time=this.time;for(const f of this.state.effects)f.life-=dt;this.state.effects=this.state.effects.filter(f=>f.life>0).slice(-80);if(this.state.phase==='finished'){if(this.time>=this.roundEnd)this.nextRound();}else{if(this.pendingInteractions.length&&this.supportReady()&&this.time>=this.nextSupportAt){this.nextSupportAt=this.time+.15;const job=this.pendingInteractions[0];this.input(job.event);if(--job.count===0)this.pendingInteractions.shift();this.state.pending=this.pendingInteractions.reduce((n,j)=>n+j.count,0);}if(this.state.phase==='playing')this.step?.(dt);}this.sync?.();return this.state;}
  snapshot(){this.sync?.();this.state.players=[...this.users.values()].map(p=>({...p}));this.state.scores=[...this.users.values()].filter(p=>!p.id.startsWith('bot-')).sort((a,b)=>b.score-a.score).slice(0,8).map(({id,name,score,team})=>({id,name,score,team}));return structuredClone(this.state);}
 }
