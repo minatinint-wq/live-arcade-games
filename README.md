@@ -52,3 +52,23 @@ separado. Este repositório não recebe nem guarda chaves desse conector.
 
 As licenças comerciais assinadas, contas online, modelo/voz do CJ e demais
 assets de terceiros do Hub não fazem parte deste repositório MIT.
+
+## Interações
+
+Todos os 57 jogos têm comandos em português. `!comandos` mostra a lista da
+rodada. `dispatchInput` retorna um recibo com `accepted`, `action`, `message`
+e `queued`; `interactiveInput` mantém a interface booleana anterior.
+
+`interactionProfile(game)` em `core/bindings.mjs` descreve o efeito de cada
+faixa de presente (1–9, 10–99, 100+ moedas), seguidores e curtidas. Cada
+participante acumula 10 curtidas para disparar um apoio. Presentes usam
+`count` como unidades novas, não o total acumulado de um combo: o conector
+deve normalizar esse total e deduplicar a confirmação final antes do envio.
+A fila recebe até 1.000 unidades, preserva apoios entre rodadas e processa
+um por vez. Recursos têm os limites de cada jogo; quizzes limitam o tempo
+extra a 60 segundos por rodada e pistas não enviam a resposta automaticamente.
+
+A prévia aceita clique/toque e teclado: direções para a cobrinha, esquerda e
+direita para lenhador/escada, espaço para saltar ou soltar a torre. Cartas e
+blocos aceitam seleção individual; nos tabuleiros de letras, arraste a palavra.
+A captura permanece somente para visualização. Nenhuma interação chama TTS.
