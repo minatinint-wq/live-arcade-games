@@ -23,3 +23,13 @@ Os prompts abaixo documentam a direção usada em cada geração. Todos solicita
 `web/art.mjs` carrega nove imagens uma única vez por página e recorta os atlas no Canvas. `web/covers.mjs` compõe uma capa por jogo a partir dos mesmos elementos usados nas cenas. Títulos, respostas, nomes, placares e controles continuam sendo texto e geometria do aplicativo, para manter tradução, nitidez e interação. Os retratos são personagens fictícios, não fotos do espectador. O guaxinim usa painéis arredondados para suas expressões.
 
 Os 57 módulos de regras continuam separados. Esta revisão substitui o tratamento visual compartilhado; não afirma que cada jogo ganhou um motor 3D ou animação esquelética. Animações do Canvas usam posição, escala, rotação e mudanças de expressão. O CJ não é alterado por esta revisão.
+
+## Revisão 3 — movimentos e ambientes
+
+Em 27/10/2026 foram adicionados quatro arquivos por geração integrada `image_gen`: `goat-motion-v3.png` (4x3 poses), `fighter-motion-v3.png` (4x4 poses), `horse-motion-v3.png` (4x2 poses) e `environments-v3.png` (16 ambientes temáticos). Prompts exatos de cabra/lutador/ambientes em `prompts-v3.json`; prompt e origem do cavalo em `horse-prompt-v3.md`.
+
+Os movimentos agora trocam poses de caminhada, ataque, impacto, defesa, vitória e queda. Objetos têm processos próprios (cunhagem, impressão, revelação, recarga, construção, corte). O renderizador interpola coordenadas com IDs estáveis e usa relógio visual contínuo. Objetos sem ID e teletransportes não são interpolados.
+
+Há 16 bases de ambiente com tratamentos por jogo, além dos quatro fundos anteriores. Não são 57 fundos pintados individualmente. As divisões irregulares do atlas de cenários e os recortes de livro/cristal usam coordenadas explícitas para não mostrar o asset vizinho. O renderer limita o desenho à região de jogo, preservando cabeçalho/rodapé. Estes jogos usam sprites/Canvas 2D, não um motor esquelético 3D.
+
+A consulta aos créditos públicos do Livecade (`https://livecade.io/credits/`) encontrou modelos externos CC BY do apresentador; não um kit público das cabras/arenas. Nenhum asset privado ou render otimizado do Livecade foi importado. Foram criadas sequências próprias e usadas as imagens locais do projeto.

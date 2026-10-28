@@ -1,0 +1,10 @@
+import {box,circle,line,poly,text,star} from './draw.mjs';
+import {frame,artIndex,shadow} from './art.mjs';
+export const clock=s=>s.visualTime??s.time;
+export const age=(s,at)=>Math.max(0,clock(s)-(Number.isFinite(at)?at:-100));
+export const ease=n=>1-Math.pow(1-Math.max(0,Math.min(1,n)),3);
+export function caption(c,value,x,y,size=24,color='#fff',max=28){text(c,String(value??'').slice(0,max),x,y,size,color);}
+export function sparkles(c,x,y,t,color='#ffe3a3',radius=120,count=12){if(t<0||t>1.3)return;for(let i=0;i<count;i++){const a=i*Math.PI*2/count,d=(20+t*radius);c.save();c.globalAlpha*=Math.max(0,1-t/1.3);star(c,x+Math.cos(a)*d,y+Math.sin(a)*d-t*15,4+3*(i%2),color,4);c.restore();}}
+export function stageLights(c,t){c.save();c.globalCompositeOperation='screen';for(let i=0;i<3;i++){const x=160+i*280,tip=450+Math.sin(t*.45+i*2)*320,g=c.createLinearGradient(x,180,tip,1050);g.addColorStop(0,['#68c8ff30','#ff70c930','#fbe49130'][i]);g.addColorStop(1,'#ffffff00');poly(c,[[x-18,180],[x+18,180],[tip+150,1050],[tip-150,1050]],g);}c.restore();}
+export function dancer(c,p,t,bpm=110){const phase=t*bpm/60*Math.PI*2+(p.color||0)*.025,step=Math.sin(phase),hop=Math.abs(Math.sin(phase))*(p.spinUntil>t?28:16),x=p.x+step*13,y=p.y+70-hop;c.save();shadow(c,p.x,p.y+135,45-hop*.4,.35);c.translate(x,y);c.rotate(step*.09+(p.spinUntil>t?Math.sin(phase*.5)*.25:0));c.scale(1+Math.sin(phase*2)*.035,1-Math.sin(phase*2)*.025);frame(c,'actors',artIndex(p.color),-58,-82,116,156);c.restore();c.save();c.globalAlpha=.25;line(c,[[p.x-38,p.y+141],[p.x-15,p.y+141]],'#7ce6ff',3);line(c,[[p.x+15,p.y+141],[p.x+38,p.y+141]],'#ff8bcf',3);c.restore();caption(c,p.name,p.x,p.y+164,15,'#f7f3ff',17);}
+export function pageTurning(c,t){if(t>=.75)return;const n=ease(t/.75),w=Math.sin(n*Math.PI)*310;c.save();const g=c.createLinearGradient(450-w,0,450,0);g.addColorStop(0,'#dfc99b');g.addColorStop(.75,'#fff2cf');g.addColorStop(1,'#9b724d');poly(c,[[450,330],[450-w,350+n*70],[450-w,760+n*60],[450,835]],g);line(c,[[450,330],[450,835]],'#70503466',3);c.restore();}

@@ -1,3 +1,4 @@
+import {SCENERY} from './scenery.mjs';
 import {loadArt,backdrop,frame,artFailed,shadow,artIndex} from './art.mjs';
 import {box,text,line,poly} from './draw.mjs';
 export const COVER_ART={
@@ -7,7 +8,7 @@ export const COVER_ART={
  'would-you-rather':['quiz','mark','1 / 2'], 'context':['quiz','mark','?'], 'five-letters':['quiz','mark','CHAT'], 'guess-the-location':['quiz','mark','RIO'], 'true-or-false':['quiz','mark','V / F'], 'word-swipe':['quiz','mark','ABC'], 'trivia-time':['quiz','host',0], 'memory-maestro':['quiz','objects',5], 'quick-math':['quiz','mark','2 + 2'], 'word-hunt':['quiz','mark','ABC'], 'crowd-says':['quiz','host',2], 'word-cross':['quiz','mark','ABC'], 'find-the-word':['quiz','mark','CHA'], 'guess-the-flag':['quiz','flag',0], 'word-association':['quiz','mark','SOL'], 'guess-the-drawing':['quiz','objects',8], 'guess-the-logo':['quiz','mark','?'], 'guess-the-number':['quiz','mark','42'], 'million-quiz':['quiz','objects',2],
  'card-factory':['studio','objects',6], 'coin-mint':['studio','objects',3], 'name-diary':['studio','objects',8], 'pfp-printer':['studio','objects',7], 'ai-host':['studio','host',0], 'dance-party':['studio','actors',1], 'tung-tung-smash':['studio','objects',10], 'clip-machine':['studio','host',2], 'snake':['world','pieces',15], 'guess-your-future':['studio','objects',9], 'roast-your-photo':['studio','host',5], 'dance-floor':['studio','actors',7]
 };
-export async function cover(canvas,meta){await loadArt();if(artFailed())throw Error('Arte indisponível');canvas.width=720;canvas.height=400;const c=canvas.getContext('2d'),[bg,sheet,index]=COVER_ART[meta.id];backdrop(c,bg,0,0,720,400);const shade=c.createLinearGradient(0,0,720,400);shade.addColorStop(0,'#050b1a55');shade.addColorStop(1,'#050b1a00');box(c,0,0,720,400,shade);
+export async function cover(canvas,meta){await loadArt();if(artFailed())throw Error('Arte indisponível');canvas.width=720;canvas.height=400;const c=canvas.getContext('2d'),[bg,sheet,index]=COVER_ART[meta.id];const setting=SCENERY[meta.id]?.[0];if(setting>=0)frame(c,'environments',setting,0,0,720,400);else backdrop(c,bg,0,0,720,400);const shade=c.createLinearGradient(0,0,720,400);shade.addColorStop(0,'#050b1a55');shade.addColorStop(1,'#050b1a00');box(c,0,0,720,400,shade);
  c.save();c.translate(360,220);c.rotate(-.11);shadow(c,0,130,160,.4);
  if(meta.id==='card-factory'||meta.id==='take-the-crown'){box(c,-110,-160,220,310,'#17223b',15);frame(c,'actors',4,-110,-110,220,250);frame(c,'objects',6,-160,-182,320,355);}
  else if(meta.id==='coin-mint'){frame(c,'objects',3,-175,-170,350,350);frame(c,'objects',2,70,55,150,150);frame(c,'objects',1,-220,65,130,130);}

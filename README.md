@@ -27,9 +27,9 @@ Não são os jogos originais da plataforma de referência, nem reproduções exa
 O apresentador e as brincadeiras de previsão usam respostas locais; não há
 serviço de IA, análise facial ou geração paga de voz automática.
 
-## Arte revisada (1.1.0)
+## Arte e movimentos (1.2.0)
 
-As 57 capas e as seis famílias de cenas usam nove arquivos de arte local: personagens, objetos, peças e quatro cenários. Cartas, moedas, diário, impressora, apresentador e reações usam os mesmos elementos da capa durante a partida. A direção, os prompts e as grades estão em [web/assets/ART-DIRECTION.md](web/assets/ART-DIRECTION.md). Não há serviço de geração de imagem em tempo de execução.
+As 57 capas e as seis famílias de cenas usam treze arquivos de arte local: personagens, objetos, peças e quatro cenários. Cartas, moedas, diário, impressora, apresentador e reações usam os mesmos elementos da capa durante a partida. A direção, os prompts e as grades estão em [web/assets/ART-DIRECTION.md](web/assets/ART-DIRECTION.md). Não há serviço de geração de imagem em tempo de execução.
 
 ## Escopo desta versão
 
@@ -76,3 +76,5 @@ A prévia aceita clique/toque e teclado: direções para a cobrinha, esquerda e
 direita para lenhador/escada, espaço para saltar ou soltar a torre. Cartas e
 blocos aceitam seleção individual; nos tabuleiros de letras, arraste a palavra.
 A captura permanece somente para visualização. Nenhuma interação chama TTS.
+
+Revisão por jogo: [docs/REVISAO-57-JOGOS.md](docs/REVISAO-57-JOGOS.md). Foram corrigidos comandos, colisões, rodadas e processos visuais; as bases temáticas são compartilhadas, com poses animadas e efeitos específicos. Não é uma reprodução dos assets da plataforma de referência.
