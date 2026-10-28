@@ -27,6 +27,10 @@ Não são os jogos originais da plataforma de referência, nem reproduções exa
 O apresentador e as brincadeiras de previsão usam respostas locais; não há
 serviço de IA, análise facial ou geração paga de voz automática.
 
+## Arte revisada (1.1.0)
+
+As 57 capas e as seis famílias de cenas usam nove arquivos de arte local: personagens, objetos, peças e quatro cenários. Cartas, moedas, diário, impressora, apresentador e reações usam os mesmos elementos da capa durante a partida. A direção, os prompts e as grades estão em [web/assets/ART-DIRECTION.md](web/assets/ART-DIRECTION.md). Não há serviço de geração de imagem em tempo de execução.
+
 ## Escopo desta versão
 
 São 57 jogos leves em Canvas: 8 disputas individuais, 9 de equipes,
