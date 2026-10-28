@@ -9,7 +9,7 @@ export const COVER_ART={
 };
 export async function cover(canvas,meta){await loadArt();if(artFailed())throw Error('Arte indisponível');canvas.width=720;canvas.height=400;const c=canvas.getContext('2d'),[bg,sheet,index]=COVER_ART[meta.id];backdrop(c,bg,0,0,720,400);const shade=c.createLinearGradient(0,0,720,400);shade.addColorStop(0,'#050b1a55');shade.addColorStop(1,'#050b1a00');box(c,0,0,720,400,shade);
  c.save();c.translate(360,220);c.rotate(-.11);shadow(c,0,130,160,.4);
- if(meta.id==='card-factory'){box(c,-110,-160,220,310,'#17223b',15);frame(c,'actors',4,-110,-110,220,250);frame(c,'objects',6,-160,-182,320,355);}
+ if(meta.id==='card-factory'||meta.id==='take-the-crown'){box(c,-110,-160,220,310,'#17223b',15);frame(c,'actors',4,-110,-110,220,250);frame(c,'objects',6,-160,-182,320,355);}
  else if(meta.id==='coin-mint'){frame(c,'objects',3,-175,-170,350,350);frame(c,'objects',2,70,55,150,150);frame(c,'objects',1,-220,65,130,130);}
  else if(meta.id==='pfp-printer'){frame(c,'objects',7,-180,-170,360,310);box(c,-65,65,130,115,'#e9dcc1',4);frame(c,'actors',2,-65,60,130,110);}
  else if(meta.id==='dance-party'||meta.id==='dance-floor'){frame(c,'objects',11,-70,-225,140,140);frame(c,'actors',1,-190,-135,260,300);frame(c,'actors',7,0,-135,260,300);}
